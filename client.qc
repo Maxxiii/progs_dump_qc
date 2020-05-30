@@ -4,6 +4,8 @@ void () W_WeaponFrame;
 void() W_SetCurrentAmmo;
 void(entity attacker, float damage) player_pain;
 void() player_stand1;
+void() Script_play;	//cutscenesdk dhm - prototype -- dumptruck_ds
+void() go_back;		//cutscenesdk dhm - prototype -- dumptruck_ds
 //void (vector org) spawn_tfog; //moved to items.qc -- dumptruck_ds
 void (vector org, entity death_owner) spawn_tdeath;
 
@@ -561,6 +563,12 @@ void() PutClientInServer =
 	self.invincible_finished = 0;
 	self.effects = 0;
 	self.invincible_time = 0;
+	/* =========================================== */
+	/* |  script_count is used for script timing | */ //cutscenesdk - dumptruck_ds
+	/* =========================================== */
+	self.script_count = 2;
+	self.script_delay = 1;
+	self.script_time = 0;
 	self.deathtype = "";
 	self.gravity = 0;
 	self.wantedgravity = 0;
@@ -865,6 +873,8 @@ WaterMove
 void() WaterMove =
 {
 //dprint (ftos(self.waterlevel));
+	if (self.view_ofs == '0 0 0') // cutscenesdk -dumptruck_ds
+		return;		// camera mode
 	if (self.movetype == MOVETYPE_NOCLIP)
 		return;
 	if (self.health < 0)
@@ -989,6 +999,7 @@ Called every frame before physics are run
 void() PlayerPreThink =
 {
 	local float do_ladder_physics;
+	local entity goback;
 
 	if (intermission_running)
 	{
@@ -997,8 +1008,23 @@ void() PlayerPreThink =
 	}
 
 	if (self.view_ofs == '0 0 0')
-		return;		// intermission or finale
+	{
+  /* ----------cutscenesdk-----------------
+	If we are in camera mode, play the script.
+     -------------------------------------------- */
+		if (self.impulse == 1 && self.script_count != 1000000)
+		{
+			self.script_count = 1000000;
+			goback = spawn();
+			goback.nextthink = time + 3;
+			goback.think = go_back;
+		}
 
+		if (self.script_count < self.script_delay && self.script_time < time)
+			Script_play ();
+
+		return;		// intermission or finale
+	}
 	// note that this code block is here, before the tests which check
 	// whether the player is dead, so that the player's gravity will be
 	// correctly updated even if they e.g. fell off a ladder because

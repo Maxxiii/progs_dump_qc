@@ -501,7 +501,14 @@ float	AS_MISSILE		= 4;
 .float		air_finished;	// when time > air_finished, start drowning
 .float		bubble_count;	// keeps track of the number of bubbles
 .string		deathtype;		// keeps track of how the player died
-
+// start cutcenesdk - dumptruck_ds
+.string		script;		//dhm - denotes which script to read.
+.string		next_script;	//dhm - denotes the current script.
+.string		script_num;		//dhm - number for info_scripts.
+.float		script_delay;	//dhm - time until next script.
+.float		script_time;	//dhm - used for script timing.
+.float		script_count;	//dhm - ditto.
+// end cutscenesdk
 //
 // object stuff
 //
