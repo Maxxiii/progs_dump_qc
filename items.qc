@@ -90,36 +90,6 @@ void() RefreshHull =
 	self.velocity = '0 0 0';
 };
 
-// /*
-// ============
-// PlaceItem  //old func replaced by rmq-items -- dumptruck_ds
-//
-// plants the object on the floor
-// ============
-// */
-// void() PlaceItem =
-// {
-// 	local float	oldz;
-//
-// 	self.mdl = self.model;		// so it can be restored on respawn
-// 	self.flags = FL_ITEM;		// make extra wide
-// 	self.solid = SOLID_TRIGGER;
-// 	self.movetype = MOVETYPE_TOSS;
-// 	self.velocity = '0 0 0';
-// 	self.origin_z = self.origin_z + 6;
-// 	oldz = self.origin_z;
-// 	if (!droptofloor())
-// 	{
-// 		dprint ("\n\n");
-// 		dprint (self.classname); //dumptruck_ds
-// 		dprint (" fell out of level at ");
-// 		dprint (vtos(self.origin));
-// 		dprint ("\n\n");
-// 		remove(self);
-// 		return;
-// 	}
-// };
-
 /*
 ============
 PlaceItem
