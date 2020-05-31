@@ -840,3 +840,4 @@ void() SUB_UsePain; //dumptruck_ds
 .float berserk; //dumptruck_ds
 
 void() trigger_changemusic; // dumptruck_ds
+void() ontargetview_touch; // dumptruck_ds from NullPointPaladin

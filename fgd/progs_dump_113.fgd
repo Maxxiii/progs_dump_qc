@@ -2137,6 +2137,9 @@ delay how much time to wait before firing after being switched on."
 [
 sounds(integer) : "CD track or audio file to play from within music folder" : 0
 ]
+@SolidClass base(Trigger) = trigger_onlookat : "Trigger: On look at first target"
+[
+]
 
 //////////////////////
 // end dumptruck_ds //

@@ -1015,3 +1015,27 @@ void() trigger_changemusic =
 	InitTrigger();
 	self.touch = trigger_changemusic_touch;
 };
+
+// NullPointPaladin's Look Trigger start
+
+void() ontargetview_touch =
+{
+    local entity p;
+
+    p = other;
+    makevectors(p.v_angle);
+    traceline(p.origin, (p.origin + (v_forward * 500)), FALSE, p);
+    if ((trace_ent.targetname == self.target))
+    {
+        SUB_UseTargets();
+    }
+};
+
+void() trigger_onlookat =
+{
+	if (SUB_Inhibit ())  // new spawnflags for all entities -- iw
+		return;
+
+    InitTrigger();
+    self.touch = ontargetview_touch;
+};
