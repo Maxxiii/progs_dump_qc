@@ -1,8 +1,7 @@
-
 /* ============================================ */
 /* |        Movie camera trigger  - dhm       | */
+/* |        modified by dumptruck_ds	        | */
 /* ============================================ */
-
 
 void(entity o) spawn_dummy =
 {
@@ -28,6 +27,7 @@ local entity play;
 
 	play = find(world, classname, "camera");
 	play.classname = "player";
+	play.flags = FL_CLIENT; //suggested by Spike -- is this right? - dumptruck_ds
 	stuffcmd(play, "-forward\n");
 	stuffcmd (play, "bf\n"); //bright flash for transition to camera -dumptruck_ds
 	sound (self, CHAN_AUTO, "misc/secret.wav", 1, ATTN_NORM);
@@ -36,9 +36,10 @@ local entity play;
 void() go_back =
 {
 local entity	t,c,d;
-// local vector	org; hostage meat stuff not needed
+// local vector	org; hostage meat stuff not needed in pd_
 local string	val;
 local string	val2; //dumptruck_ds
+local string	val3; //dumptruck_ds
 
 	t = find (world, classname, "dummy");
 	if (!t)
@@ -49,7 +50,8 @@ local string	val2; //dumptruck_ds
 		objerror ("couldn't find camera");
 
 	setorigin (c, t.origin);
-	c.velocity = t.velocity;
+	c.velocity = '0 0 0'; // stop player movement upon return from camera - dumptruck_ds
+	// c.velocity = t.velocity; // orginal value - dumptruck_ds
 	c.view_ofs = '0 0 22';
 	c.angles_x = t.angles_x;
 	c.angles_y = t.angles_y;
@@ -74,10 +76,12 @@ local string	val2; //dumptruck_ds
 	d.nextthink = time + 0.1;
 	d.think = name_player;
 
-	val = ftos (c.cnt);
-	val2 = ftos (c.dmg); // dumptruck_ds
+	val = ftos (c.cam);
+	val2 = ftos (c.sen); // dumptruck_ds
+	val3 = ftos (c.cro); // dumptruck_ds
 	cvar_set ("viewsize", val);  	//restore old viewsize
 	cvar_set ("sensitivity", val2);  	//restore old mouse sensitivity, hack for QS stuttering - dumptruck_ds
+	cvar_set ("crosshair", val3);  	//restore old crosshair setting - dumptruck_ds
 	cvar_set ("v_idlescale", "0");  //stop the swaying camera
 
 	t.nextthink = time + 0.1;
@@ -121,16 +125,18 @@ void() go_camera =
 	self.script_count = 0;
 
 //Save current viewscreen size to return to after camera.
-	self.cnt = cvar("viewsize");
-	self.dmg = cvar("sensitivity"); //save the mouse sensitivity for later - dumptruck_ds
+	self.cam = cvar("viewsize");
+	self.sen = cvar("sensitivity"); //save the mouse sensitivity for later - dumptruck_ds
+	self.cro = cvar("crosshair"); //save the crosshair setting for later - dumptruck_ds
 	cvar_set ("viewsize", "120");	 //Full screen
 	cvar_set ("v_idlescale", "1");  //Swaying camera
 	cvar_set ("sensitivity", "0");  //no mouse for you! fix for Quakespasm stuttering while player is camera - dumptruck_ds
+	cvar_set ("crosshair", "0");  //no crosshair while player is camera - dumptruck_ds
 
 	setorigin (self, self.enemy.origin);
 };
 
-void() camera_touch =
+void() camera_touch_go =
 {
 local entity	t;
 
@@ -143,7 +149,7 @@ local entity	t;
 	}
 
 // only activate for player
-	if (other.health <= 0 || other.classname != "player" || self.cnt == -1)
+	if (other.health <= 0 || other.classname != "player" || self.cam == -1)
 		return;
 
 	SUB_UseTargets ();
@@ -151,6 +157,9 @@ local entity	t;
 //If player is on ground, take him off ground so no one gets confused
 	if (other.flags & FL_ONGROUND)
 	    other.flags = other.flags - FL_ONGROUND;
+ //suggested by Spike - dumptruck_ds
+	if (other.flags & FL_CLIENT)
+	    other.flags = other.flags - FL_CLIENT;
 
 // put a dummy where the player was
 	spawn_dummy (other);
@@ -169,12 +178,23 @@ local entity	t;
 	other.nextthink = time + 0.05;
 	other.think = go_camera;
 
-	self.cnt = -1;  //used to make sure only one dummy is spawned;
+	self.cam = -1;  //used to make sure only one dummy is spawned;
 
 //Remove the trigger_camera from level
 	self.nextthink = time + 0.1;
 	self.think = SUB_Remove;
 };
+
+void() camera_touch = //player has to be on ground to trigger to avoid dropping view to floor upon return from camera - dumptruck_ds
+{
+		if (!(other.flags & FL_ONGROUND))
+	{
+		return;
+	}
+		else
+			camera_touch_go();
+};
+
 
 /*QUAKED info_movie_camera (.5 .5 .5) (-8 -8 -8) (8 8 32)
 This is the destination marker for a camera.  It should have a "targetname"
@@ -204,6 +224,9 @@ time(seconds) to stay on the first script page.
 
 If the trigger_camera has a targetname, it will only enter camera mode after it
 has been fired.
+
+Note this will not trigger if the player is jumping (or in the air), so make sure
+the trigger is large enough to accomodate a jumping player!!!!!!!!!!!!
 */
 void() trigger_camera =
 {

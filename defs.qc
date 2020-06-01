@@ -841,3 +841,7 @@ void() SUB_UsePain; //dumptruck_ds
 
 void() trigger_changemusic; // dumptruck_ds
 void() ontargetview_touch; // dumptruck_ds from NullPointPaladin
+
+.float		cam; 			// misc flag used in cutscenes.qc -dumptruck_ds
+.float		sen; 			// misc flag used in cutscenes.qc -dumptruck_ds
+.float		cro; 			// misc flag used in cutscenes.qc -dumptruck_ds
