@@ -73,7 +73,8 @@ local string	val3; //dumptruck_ds
    the classname back to player.  [grrrrr, I spent way too
    long figuring that out.] */
 	d = spawn();
-	d.nextthink = time + 0.1;
+	d.nextthink = time + 0.01;
+	// d.nextthink = time + 0.1;
 	d.think = name_player;
 
 	val = ftos (c.cam);
