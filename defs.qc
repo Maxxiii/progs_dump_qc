@@ -840,12 +840,8 @@ void() SUB_UsePain; //dumptruck_ds
 .float berserk; //dumptruck_ds
 nosave float *world_sounds;  //via Spike fun times! nosave=noclobber
 void() trigger_changemusic; // dumptruck_ds
-<<<<<<< HEAD
-void() onlookat_touch; // dumptruck_ds
-=======
 void() ontargetview_touch; // dumptruck_ds from NullPointPaladin
 
 .float		cam; 			// misc flag used in cutscenes.qc -dumptruck_ds
 .float		sen; 			// misc flag used in cutscenes.qc -dumptruck_ds
 .float		cro; 			// misc flag used in cutscenes.qc -dumptruck_ds
->>>>>>> pd_adoria_cutscenes
