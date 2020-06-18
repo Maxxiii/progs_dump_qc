@@ -501,7 +501,14 @@ float	AS_MISSILE		= 4;
 .float		air_finished;	// when time > air_finished, start drowning
 .float		bubble_count;	// keeps track of the number of bubbles
 .string		deathtype;		// keeps track of how the player died
-
+// start cutcenesdk - dumptruck_ds
+.string		script;		//dhm - denotes which script to read.
+.string		next_script;	//dhm - denotes the current script.
+.string		script_num;		//dhm - number for info_scripts.
+.float		script_delay;	//dhm - time until next script.
+.float		script_time;	//dhm - used for script timing.
+.float		script_count;	//dhm - ditto.
+// end cutscenesdk
 //
 // object stuff
 //
@@ -833,4 +840,12 @@ void() SUB_UsePain; //dumptruck_ds
 .float berserk; //dumptruck_ds
 nosave float *world_sounds;  //via Spike fun times! nosave=noclobber
 void() trigger_changemusic; // dumptruck_ds
+<<<<<<< HEAD
 void() onlookat_touch; // dumptruck_ds
+=======
+void() ontargetview_touch; // dumptruck_ds from NullPointPaladin
+
+.float		cam; 			// misc flag used in cutscenes.qc -dumptruck_ds
+.float		sen; 			// misc flag used in cutscenes.qc -dumptruck_ds
+.float		cro; 			// misc flag used in cutscenes.qc -dumptruck_ds
+>>>>>>> pd_adoria_cutscenes

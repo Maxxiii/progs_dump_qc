@@ -2170,6 +2170,9 @@ sounds(integer) : "Track Number (ex 02->xx)" :  : "CD track or audio file to pla
 	]
 	noise1(float) : "Path to custom sound. Use with sounds key set to 4"
 ]
+@SolidClass base(Trigger) = trigger_onlookat : "Trigger: On look at first target"
+[
+]
 
 //////////////////////
 // end dumptruck_ds //
