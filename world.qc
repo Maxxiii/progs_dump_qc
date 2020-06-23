@@ -279,6 +279,8 @@ void() worldspawn =
 		cvar_set ("sv_gravity", "800");
 
 	world_sounds = &world.sounds;  //Spike via dumptruck_ds || not read-only yet...
+	// vision = TRUE; //for NSOE cutscenes
+	vision = FALSE; //for NSOE cutscenes
 
 // the area based ambient sounds MUST be the first precache_sounds
 
@@ -357,6 +359,7 @@ void() worldspawn =
 
 	precache_model ("progs/player.mdl");
 	precache_model ("progs/eyes.mdl");
+	precache_model ("progs/null_256.spr");  // Invisible sprite NSOE - dumptruck_ds
 	precache_model ("progs/h_player.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");

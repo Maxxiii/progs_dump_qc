@@ -567,6 +567,11 @@ void() PutClientInServer =
 	self.onladder = 0;
 	self.customkeys = 0;  // support for item_key_custom -- iw
 
+// Setup cutscene stuff.  Legacy code from Zerstorer.
+  self.script_count = 2;
+  self.script_delay = 1;
+  self.script_time  = 0;
+
 	DecodeLevelParms ();
 
 	W_SetCurrentAmmo ();
@@ -986,6 +991,7 @@ PlayerPreThink
 Called every frame before physics are run
 ================
 */
+void() Cutscene_Think;      // PM:  Prototype for cutscenes.
 void() PlayerPreThink =
 {
 	local float do_ladder_physics;
@@ -997,8 +1003,10 @@ void() PlayerPreThink =
 	}
 
 	if (self.view_ofs == '0 0 0')
+	{
+	Cutscene_Think ();      // PM:  Check for cutscene stuff.
 		return;		// intermission or finale
-
+	}
 	// note that this code block is here, before the tests which check
 	// whether the player is dead, so that the player's gravity will be
 	// correctly updated even if they e.g. fell off a ladder because

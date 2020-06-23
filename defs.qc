@@ -834,3 +834,18 @@ void() SUB_UsePain; //dumptruck_ds
 nosave float *world_sounds;  //via Spike fun times! nosave=noclobber
 void() trigger_changemusic; // dumptruck_ds
 void() onlookat_touch; // dumptruck_ds
+// Cutscenes ---------------------------------------------------------------
+float   SVC_CUTSCENE        = 34;   // Hipnotic (nsoe cutscenes)
+.float  pausetime;      // Used by Zerstorer cutscene code.
+float   vision;         // TRUE = Use vision cutscenes.  FALSE = Zer's.
+float   cutscene;       // Set to TRUE during a cutscene.
+float   mindex_inviso;  // Invisible (null sprite for NSOE cutscenes)
+// Cutscenes -- Borrowed from Zerstorer.
+.string     script;         //dhm - denotes which script to read.
+.string     next_script;    //dhm - denotes the current script.
+.string     script_num;     //dhm - number for info_scripts.
+.string     camera_point;   //dhm - target for camera to move to.
+.string     focal_point;    //dhm - focus point for camera.
+.float      script_delay;   //dhm - time until next script.
+.float      script_time;    //dhm - used for script timing.
+.float      script_count;   //dhm - ditto.

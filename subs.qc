@@ -549,3 +549,32 @@ void() SUB_DislodgeRestingEntities =
 		e = nextent (e);
 	}
 };
+//------------------------------------------------------------------------//
+//  This makes an entity do a think function right now.
+//	from NSOE devkit for cutscenes.qc
+//------------------------------------------------------------------------//
+void(entity ent, void() thinkst) SUB_Think =
+{
+    local   entity  swap;
+
+    swap = self;
+    self = ent;
+    thinkst ();
+    self = swap;
+};
+
+// Returns null string on demand if possible. also from NSOE
+string() Give_NullString =
+{
+    if (string_null)
+    {   // Not null anymore for some reason, probably quickloading.
+        if (!world.targetname)
+            return world.targetname;
+        if (!world.target)
+            return world.target;
+        if (!world.target2)     // Custom, and world shouldn't use.
+            return world.target2;
+        return "";      // Tried but failed, return empty (not null) string.
+    }
+    return string_null;
+};
