@@ -3,6 +3,15 @@
 void() player_run;      // PM:  Another prototype.
 void() DHM_CalcMoveDone;
 void() move_camera;
+//============
+//- - - - - - - - - - - - - - - - - - -
+// This resets air capacity and drowning damage.
+void(entity ent) more_air =  //NSOE pow.qc -- dumptruck_ds
+{
+    ent.air_finished = time + 12;
+    ent.dmg = 2;        // initial water damage
+};
+
 
 // ============================================ //
 // |        Movie camera trigger  - dhm       | //
@@ -172,8 +181,7 @@ local   string  val;
     c.movetype      = MOVETYPE_WALK;
     c.nextthink     = time;
     c.think         = player_run;   // PM:  Reset player anim frames.
-    // more_air (c);   // No gasping from you!
-
+    more_air (c);   // No gasping from you!
     // c.xfl           = c.xfl | XFL_ITEMS;     // Restore pickup again.
 
 // Yes, you CAN change the classname here since the 'find' command already

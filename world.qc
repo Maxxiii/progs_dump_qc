@@ -279,8 +279,8 @@ void() worldspawn =
 		cvar_set ("sv_gravity", "800");
 
 	world_sounds = &world.sounds;  //Spike via dumptruck_ds || not read-only yet...
-	// vision = TRUE; //for NSOE cutscenes
-	vision = FALSE; //for NSOE cutscenes
+	// vision = TRUE; //for NSOE cutscenes (Vision method)
+	vision = FALSE; //for NSOE cutscenes (Zer method)
 
 // the area based ambient sounds MUST be the first precache_sounds
 
